@@ -4,7 +4,7 @@
   margin-bottom: 16px;
 }
 
-.task-filter button[aria-pressed='true'] {
+.task-filter button[aria-pressed="true"] {
   background: #0969da;
   border-color: #0969da;
   color: #fff;

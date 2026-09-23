@@ -19,7 +19,7 @@
   border-radius: 6px;
 }
 
-.task-form input[aria-invalid='true'] {
+.task-form input[aria-invalid="true"] {
   border-color: #cf222e;
 }
 

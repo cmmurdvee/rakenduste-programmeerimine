@@ -19,3 +19,5 @@ Ava link, mis terminalis tuleb (nt http://localhost:5173/task-tracker/).
 - `npm run format` – Prettier vormindab koodi
 - `npm run format:check` – kontrollib vormindust
 - `npm run lint` – linter
+- `npm test` – jooksutab testid
+- `npm run test:watch` – testid jooksevad iga salvestuse järel uuesti

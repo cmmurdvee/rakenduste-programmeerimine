@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { PageSection } from '../components/PageSection';
+import { Link } from "react-router-dom";
+import { PageSection } from "../components/PageSection";
 
 export function HomePage({ tasks }) {
   const completedCount = tasks.filter((task) => task.completed).length;

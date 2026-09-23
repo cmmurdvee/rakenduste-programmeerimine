@@ -1,4 +1,4 @@
-import './PageSection.css';
+import "./PageSection.css";
 
 // children = kõik mis on <PageSection> ja </PageSection> vahel
 export function PageSection({ title, children }) {

@@ -1,5 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
-import { PageSection } from '../components/PageSection';
+import { Link, useParams } from "react-router-dom";
+import { PageSection } from "../components/PageSection";
 
 export function TaskDetailsPage({ tasks }) {
   const { taskId } = useParams();
@@ -23,7 +23,7 @@ export function TaskDetailsPage({ tasks }) {
         <dt>ID</dt>
         <dd>{task.id}</dd>
         <dt>Status</dt>
-        <dd>{task.completed ? 'Completed' : 'Not completed'}</dd>
+        <dd>{task.completed ? "Completed" : "Not completed"}</dd>
       </dl>
       <Link to="/tasks">← Back to tasks</Link>
     </PageSection>

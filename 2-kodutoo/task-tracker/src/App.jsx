@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
-import { Header } from './components/Header';
-import { HomePage } from './pages/HomePage';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { TaskDetailsPage } from './pages/TaskDetailsPage';
-import { TasksPage } from './pages/TasksPage';
-import { getTasks } from './services/taskApi';
+import { useEffect, useState } from "react";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { Header } from "./components/Header";
+import { HomePage } from "./pages/HomePage";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { TaskDetailsPage } from "./pages/TaskDetailsPage";
+import { TasksPage } from "./pages/TasksPage";
+import { getTasks } from "./services/taskApi";
 
 // uus id = suurim id + 1 (tasks.length + 1 ei tööta peale kustutamist)
 function getNextId(tasks) {
@@ -15,7 +15,7 @@ function getNextId(tasks) {
 function App() {
   // taskid on siin, et kõik lehed saaksid neid kasutada
   const [tasks, setTasks] = useState([]);
-  const [status, setStatus] = useState('loading'); // loading, error või success
+  const [status, setStatus] = useState("loading"); // loading, error või success
   const [error, setError] = useState(null);
   const [reloadCount, setReloadCount] = useState(0);
 
@@ -27,13 +27,13 @@ function App() {
       .then((loadedTasks) => {
         if (!ignore) {
           setTasks(loadedTasks);
-          setStatus('success');
+          setStatus("success");
         }
       })
       .catch((err) => {
         if (!ignore) {
           setError(err.message);
-          setStatus('error');
+          setStatus("error");
         }
       });
 
@@ -44,7 +44,7 @@ function App() {
   }, [reloadCount]);
 
   function handleRetry() {
-    setStatus('loading');
+    setStatus("loading");
     setReloadCount((count) => count + 1);
   }
 
@@ -80,9 +80,9 @@ function App() {
         <NavLink to="/tasks">Tasks</NavLink>
       </nav>
 
-      {status === 'loading' && <p>Loading tasks…</p>}
+      {status === "loading" && <p>Loading tasks…</p>}
 
-      {status === 'error' && (
+      {status === "error" && (
         <div role="alert">
           <p>Something went wrong: {error}</p>
           <button type="button" onClick={handleRetry}>
@@ -91,7 +91,7 @@ function App() {
         </div>
       )}
 
-      {status === 'success' && (
+      {status === "success" && (
         <Routes>
           <Route path="/" element={<HomePage tasks={tasks} />} />
           <Route

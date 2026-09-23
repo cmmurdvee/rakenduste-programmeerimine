@@ -1,6 +1,6 @@
-import { PageSection } from '../components/PageSection';
-import { TaskForm } from '../components/TaskForm';
-import { TaskList } from '../components/TaskList';
+import { PageSection } from "../components/PageSection";
+import { TaskForm } from "../components/TaskForm";
+import { TaskList } from "../components/TaskList";
 
 export function TasksPage({ tasks, onAddTask, onToggle, onDelete }) {
   return (

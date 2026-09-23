@@ -1,7 +1,7 @@
 const FILTERS = {
-  all: 'All',
-  completed: 'Completed',
-  incomplete: 'Incomplete',
+  all: "All",
+  completed: "Completed",
+  incomplete: "Incomplete",
 };
 
 // filtri nupud, aktiivne nupp on sinine
