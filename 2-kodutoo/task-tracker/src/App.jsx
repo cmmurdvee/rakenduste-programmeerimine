@@ -1,121 +1,119 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import { useEffect, useState } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import { Header } from './components/Header';
+import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { TaskDetailsPage } from './pages/TaskDetailsPage';
+import { TasksPage } from './pages/TasksPage';
+import { getTasks } from './services/taskApi';
+
+// uus id = suurim id + 1 (tasks.length + 1 ei tööta peale kustutamist)
+function getNextId(tasks) {
+  return tasks.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1;
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  // taskid on siin, et kõik lehed saaksid neid kasutada
+  const [tasks, setTasks] = useState([]);
+  const [status, setStatus] = useState('loading'); // loading, error või success
+  const [error, setError] = useState(null);
+  const [reloadCount, setReloadCount] = useState(0);
+
+  // laeb taskid kui leht avatakse (ja kui vajutan "Try again")
+  useEffect(() => {
+    let ignore = false;
+
+    getTasks()
+      .then((loadedTasks) => {
+        if (!ignore) {
+          setTasks(loadedTasks);
+          setStatus('success');
+        }
+      })
+      .catch((err) => {
+        if (!ignore) {
+          setError(err.message);
+          setStatus('error');
+        }
+      });
+
+    // cleanup - vana päringu vastust ei kasuta
+    return () => {
+      ignore = true;
+    };
+  }, [reloadCount]);
+
+  function handleRetry() {
+    setStatus('loading');
+    setReloadCount((count) => count + 1);
+  }
+
+  // lisab uue taski (teen uue array, vana ei muuda)
+  function handleAddTask(title) {
+    setTasks((previous) => [
+      ...previous,
+      { id: getNextId(previous), title, completed: false },
+    ]);
+  }
+
+  // muudab completed true/false
+  function handleToggleTask(id) {
+    setTasks((previous) =>
+      previous.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task,
+      ),
+    );
+  }
+
+  // kustutab taski
+  function handleDeleteTask(id) {
+    setTasks((previous) => previous.filter((task) => task.id !== id));
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Task Tracker</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <main>
+      <Header />
+      <nav className="nav">
+        <NavLink to="/" end>
+          Home
+        </NavLink>
+        <NavLink to="/tasks">Tasks</NavLink>
+      </nav>
 
-      <div className="ticks"></div>
+      {status === 'loading' && <p>Loading tasks…</p>}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {status === 'error' && (
+        <div role="alert">
+          <p>Something went wrong: {error}</p>
+          <button type="button" onClick={handleRetry}>
+            Try again
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {status === 'success' && (
+        <Routes>
+          <Route path="/" element={<HomePage tasks={tasks} />} />
+          <Route
+            path="/tasks"
+            element={
+              <TasksPage
+                tasks={tasks}
+                onAddTask={handleAddTask}
+                onToggle={handleToggleTask}
+                onDelete={handleDeleteTask}
+              />
+            }
+          />
+          <Route
+            path="/tasks/:taskId"
+            element={<TaskDetailsPage tasks={tasks} />}
+          />
+          {/* kõik muud lingid */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      )}
+    </main>
   );
 }
 

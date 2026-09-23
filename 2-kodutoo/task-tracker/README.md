@@ -1,16 +1,21 @@
-# React + Vite
+# Task Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite rakendus, kus saab taske lisada, filtreerida, tehtuks märkida ja kustutada.
 
-Currently, two official plugins are available:
+## Käivitamine
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Ava link, mis terminalis tuleb (nt http://localhost:5173/task-tracker/).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Käsud
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev` – arendusserver
+- `npm run build` – teeb `dist` kausta
+- `npm run preview` – näitab buildi
+- `npm run format` – Prettier vormindab koodi
+- `npm run format:check` – kontrollib vormindust
+- `npm run lint` – linter
