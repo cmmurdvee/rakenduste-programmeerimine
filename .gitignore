@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Sõltuvused
+node_modules/
+
+# Build väljundid
+dist/
+dist-ssr/
+build/
+
+# Logid
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Keskkonnamuutujad
+.env
+.env.local
+.env.*.local
+*.local
+
+# Editorid
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.sw?
