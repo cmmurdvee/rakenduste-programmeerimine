@@ -1,0 +1,63 @@
+# VS Code: paigalda "REST Client" ja vajuta "Send Request" (server peab töötama)
+
+@baseUrl = http://localhost:3000
+
+### Kas server töötab
+GET {{baseUrl}}/api/health
+
+### Kõik taskid
+GET {{baseUrl}}/api/tasks
+
+### Ainult tehtud taskid
+GET {{baseUrl}}/api/tasks?completed=true
+
+### Vigane filter -> 400
+GET {{baseUrl}}/api/tasks?completed=yes
+
+### Üks task
+GET {{baseUrl}}/api/tasks/2
+
+### Olematu task -> 404
+GET {{baseUrl}}/api/tasks/99
+
+### Uus task -> 201
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{ "title": "Learn Express" }
+
+### Tühi pealkiri -> 400
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{ "title": "   " }
+
+### Märgi tehtuks -> 200
+PATCH {{baseUrl}}/api/tasks/2
+Content-Type: application/json
+
+{ "completed": true }
+
+### Muuda pealkirja -> 200
+PATCH {{baseUrl}}/api/tasks/2
+Content-Type: application/json
+
+{ "title": "Practise React hooks" }
+
+### Vigane muudatus ("true" on string, mitte boolean) -> 400
+PATCH {{baseUrl}}/api/tasks/2
+Content-Type: application/json
+
+{ "completed": "true" }
+
+### Kustuta -> 204 (vastusel pole body't)
+DELETE {{baseUrl}}/api/tasks/3
+
+### Vigane JSON -> 400 (käsitletud viga)
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{ "title": "broken
+
+### Tundmatu aadress -> 404 JSON
+GET {{baseUrl}}/api/nope
