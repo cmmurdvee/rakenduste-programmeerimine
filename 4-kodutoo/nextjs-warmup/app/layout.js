@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,7 +20,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {/* navigatsioon kõigil lehtedel */}
+        <nav>
+          <Link href="/">Avaleht</Link> | <Link href="/about">Minust</Link>
+        </nav>
+        {children}
+      </body>
     </html>
   );
 }
